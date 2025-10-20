@@ -1,0 +1,12 @@
+'3-0-size-extractor.py'
+
+---
+
+1. Need to analyze column H from a file.
+
+2. We will specify the file through terminal by pasting the path.
+
+3. Must analyze the content in the cell which are strings separated by commas - looks something like this: "brand_happy_socks, colour_blue, colour_green, colour_multi, colour_red, colour_white, colour_yellow, Non Sale, size_36_40"
+
+4. We must iterate through the rows, pull out all 'size_' tags, combine them into a master list - and then remove all duplicates. Then return that as a .txt file called 'size_tags.txt'. This will contain a full, ordered list of all the 'size_' tags that exist in the file.
+

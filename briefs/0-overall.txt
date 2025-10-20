@@ -1,0 +1,66 @@
+---
+DONE:
+---
+
+Step 1: Investigate the main raw file.
+⦁	Take the raw 'collections' file.
+
+Step 2: Split the raw file into respective sock groups.
+⦁	Isolate the following Collection names:
+⦁		Men's Handmade Socks
+⦁		Men's Socks
+⦁		Women's Socks
+⦁		Infant Socks
+⦁	Create 3 separate files: mens, womens, infants
+
+Step 3: Return Matrixify format for respective sock groups.
+⦁	Augment master file against 4 collection names	
+⦁		If the handle is found, return the row.
+⦁		Do this in sequential order from raw file
+⦁		Return a separate file
+
+----
+TO DO:
+----
+
+⦁	Step 4: Replace the Product Type for sock groups.
+⦁		Take the path of the file to change.
+⦁		Look in Column G - known as 'Type'
+⦁		Take a user input for what we will change the values to.
+⦁		Respect the header but change everything else.
+
+Step 5: Build a size mapping dictionary for the products
+⦁	Extract all sizes, deduplicate
+⦁	Put in a master sequential list
+⦁	Send to Gemma for categorization (define the threshold)
+
+Kids: 12M
+Womens: 36-40 (S/M)
+Mens: 41-46 (M/L)
+
+
+
+
+⦁	Step 4: Append new genders to the file.
+⦁		For column CQ ('Metafield: custom.gender [list.single_line_text_field]')
+
+Other columns:
+	
+⦁		For column DE ('Metafield: shopify.target-gender [list.metaobject_reference]')
+⦁		For all men's, we must APPEND women's - get the format right.
+⦁		For column EN ('Metafield: customAttributes.gender [single_line_text_field]')
+⦁		x
+
+⦁	Step 4
+x
+
+⦁	Step 4
+x
+
+⦁	Step 5
+⦁	Redownload the quantities, prepare the final file.
+
+⦁	Upload
+
+
+	

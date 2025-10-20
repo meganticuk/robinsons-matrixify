@@ -1,0 +1,18 @@
+'2-0-matrixify-segmenter.py'
+
+---
+
+Time for the second script.
+
+This script will analyze a Shopify export file, it will:
+
+1. Ask a user for the first reference file, taken as a path user input in terminal
+2. Look in Column B (Column 2) of that reference file for a 'handle' (the header row of Col. B in the reference file is: 'Product: Handle'
+3. It will compare this against a master file, with the name 'robinsons-socks.xlsx', which will never change its name or location.
+4. If the script finds a corresponding 'handle' from the file in Step 2 in the reference file, in Column B from 'robinsons-socks.xlsx', then it will return every row from the 'robinsons-socks.xlsx' file that matches that handle.
+5. It must respect the header row when running the analysis, and also return the header row from the 'robinsons-socks.xlsx' file in the final file, that the script will return.
+6. The final file will be name of the original file that was analyzed in Steps 1 and 2, something like this: {file-name}-extracted-products.xlsx.
+
+In the final terminal output, it should print to terminal how many rows it processed, as well as how many unique handles it processed (there will be duplicate rows in the final file, and that's fine.)
+
+ENSURE THAT YOU DO NOT DELETE / REMOVE any duplicates from the final output file.
