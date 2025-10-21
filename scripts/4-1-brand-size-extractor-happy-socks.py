@@ -1,21 +1,23 @@
 """
-Gender Updater Script
-This script updates gender tags in the products file based on brand and size criteria.
+Happy Socks Gender Updater Script (APPEND MODE)
+This script is specifically designed for Happy Socks products with overlapping sizes.
 
 Features:
-- Reads from data/all-socks-preupload-extracted-products.xlsx (never modifies the original)
+- Reads from all-socks-preupload-extracted-products.xlsx
 - Outputs ONLY matched rows to data/ directory with descriptive filename
-- Output file contains only the rows that matched the filter criteria
-- Exact case matching for brand name and size label
+- Hard-coded brand: "Happy Socks"
+- APPEND-ONLY MODE: Never replaces existing genders, only adds new ones
+  * This allows products with BOTH size_36_40 AND size_41_46 to get BOTH Female AND Male tags
 - Parses comma-separated tags in Column H
-- Smart gender replacement logic:
-  * Replaces opposite gender (Female -> Male or Male -> Female)
-  * Keeps same gender unchanged
-  * Appends to Unisex
 - Shopify Matrixify format compliance:
   * Gender tag applied ONLY to first row of each unique handle
   * Subsequent variant rows have blank gender field
-- Interactive prompts for brand, size, and gender
+- Interactive prompts for size and gender only (brand is fixed)
+
+Usage:
+1. Run script with size_36_40, Female
+2. Run script again with size_41_46, Male
+3. Products with both sizes will have both genders!
 """
 
 import openpyxl
@@ -81,11 +83,14 @@ def get_opposite_gender(gender):
 
 def update_gender_list(current_genders, new_gender):
     """
-    Update the gender list according to the business rules:
+    APPEND-ONLY MODE: Update the gender list by appending new gender.
+    
+    This is specifically designed for Happy Socks where products may have
+    multiple overlapping sizes (size_36_40 AND size_41_46) and need multiple genders.
+    
+    Rules:
     - If new gender already exists, no change
-    - If opposite gender exists, replace it with new gender
-    - If "Unisex" exists, append new gender (if not already there)
-    - Otherwise, just add the new gender
+    - Otherwise, ALWAYS APPEND (never replace)
     
     Returns: (updated_list, was_changed)
     """
@@ -93,25 +98,11 @@ def update_gender_list(current_genders, new_gender):
     if new_gender in current_genders:
         return current_genders, False
     
-    # Get opposite gender
-    opposite = get_opposite_gender(new_gender)
-    
-    # Check if opposite gender exists
-    if opposite and opposite in current_genders:
-        # Replace opposite with new gender
-        updated = [new_gender if g == opposite else g for g in current_genders]
-        return updated, True
-    
-    # Check if Unisex exists
-    if "Unisex" in current_genders:
-        # Append new gender to Unisex
-        return current_genders + [new_gender], True
-    
-    # If empty or no special cases, just add new gender
+    # If empty, create new list with this gender
     if not current_genders:
         return [new_gender], True
     
-    # Default: append
+    # Otherwise, APPEND the new gender (no replacement logic)
     return current_genders + [new_gender], True
 
 
@@ -119,34 +110,51 @@ def update_gender_tags():
     """
     Main function to update gender tags in the products file.
     """
-    # File paths - relative to script location
-    script_dir = Path(__file__).parent
-    project_root = script_dir.parent
-    input_file = project_root / "data" / "all-socks-preupload-extracted-products.xlsx"
-    
-    # Check if file exists
-    if not input_file.exists():
-        print(f"Error: File not found at {input_file}")
-        return
+    # Fixed brand (Happy Socks specific script)
+    brand_name = "Happy Socks"
     
     # Get user inputs
     print("=" * 60)
-    print("Gender Tag Updater")
+    print("Happy Socks Gender Tag Updater (APPEND MODE)")
     print("=" * 60)
-    print("\nThis script will update gender tags based on brand and size criteria.")
-    print("Note: Exact case matching will be used for accuracy.\n")
+    print(f"\nBrand: {brand_name} (hard-coded)")
+    print("\nThis script will APPEND gender tags based on size criteria.")
+    print("It will NOT replace existing genders - only add new ones.")
+    print("This allows products with multiple sizes to have multiple genders.\n")
+    print("Common sizes:")
+    print("  - size_36_40 (typically Female)")
+    print("  - size_41_46 (typically Male)")
+    print("\nNote: Exact case matching will be used for accuracy.\n")
     
-    brand_name = input("Enter the Brand Name (exact case): ").strip()
-    size_label = input("Enter the Size Label (exact case): ").strip()
+    # Get input file path
+    print("Enter the input file path:")
+    print("  First run: data/all-socks-preupload-extracted-products.xlsx")
+    print("  Second run: data/products-updated-happy-socks-size_36_40.xlsx (from first run)")
+    input_file_str = input("\nInput file path: ").strip()
+    
+    if not input_file_str:
+        print("\nError: Input file path is required!")
+        return
+    
+    # Remove quotes if user copied path with quotes
+    input_file_str = input_file_str.strip('"').strip("'")
+    input_file = Path(input_file_str)
+    
+    # Check if file exists
+    if not input_file.exists():
+        print(f"\nError: File not found at {input_file}")
+        return
+    
+    size_label = input("\nEnter the Size Label (exact case): ").strip()
     gender = input("Enter the Gender to add: ").strip()
     
-    if not brand_name or not size_label or not gender:
-        print("\nError: All fields are required!")
+    if not size_label or not gender:
+        print("\nError: Size and Gender are required!")
         return
     
     # Generate output filename
-    output_dir = project_root / "data"
-    output_file = output_dir / f"products-updated-{brand_name.lower()}-{size_label.replace('/', '-')}.xlsx"
+    output_dir = Path(r"C:\Users\New\Documents\Work\Client\Robinson\phase-2\data")
+    output_file = output_dir / f"products-updated-happy-socks-{size_label.replace('/', '-')}.xlsx"
     
     print(f"\nSearching for:")
     print(f"  Brand: '{brand_name}'")
@@ -269,10 +277,10 @@ def update_gender_tags():
     print(f"Rows updated: {rows_updated}")
     print(f"Rows unchanged (already correct): {rows_unchanged}")
     print()
-    print("Update Rules Applied:")
+    print("Update Rules Applied (APPEND-ONLY MODE):")
     print(f"  - If gender was already '{gender}': No change")
-    print(f"  - If gender was opposite: Replaced with '{gender}'")
-    print(f"  - If gender was 'Unisex': Appended '{gender}'")
+    print(f"  - Otherwise: APPENDED '{gender}' (no replacement)")
+    print(f"  - Products with multiple sizes will accumulate multiple genders")
     print()
     print("Shopify Matrixify Format:")
     print(f"  - Gender tags added ONLY to first row of each unique handle")

@@ -3,7 +3,7 @@ Gender Updater Script
 This script updates gender tags in the products file based on brand and size criteria.
 
 Features:
-- Reads from data/all-socks-preupload-extracted-products.xlsx (never modifies the original)
+- Reads from raw/products-raw.xlsx (never modifies the original)
 - Outputs ONLY matched rows to data/ directory with descriptive filename
 - Output file contains only the rows that matched the filter criteria
 - Exact case matching for brand name and size label
@@ -119,10 +119,8 @@ def update_gender_tags():
     """
     Main function to update gender tags in the products file.
     """
-    # File paths - relative to script location
-    script_dir = Path(__file__).parent
-    project_root = script_dir.parent
-    input_file = project_root / "data" / "all-socks-preupload-extracted-products.xlsx"
+    # File paths
+    input_file = Path(r"C:\Users\New\Documents\Work\Client\Robinson\phase-2\data\all-socks-preupload-extracted-products.xlsx")
     
     # Check if file exists
     if not input_file.exists():
@@ -145,7 +143,7 @@ def update_gender_tags():
         return
     
     # Generate output filename
-    output_dir = project_root / "data"
+    output_dir = Path(r"C:\Users\New\Documents\Work\Client\Robinson\phase-2\data")
     output_file = output_dir / f"products-updated-{brand_name.lower()}-{size_label.replace('/', '-')}.xlsx"
     
     print(f"\nSearching for:")

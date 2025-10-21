@@ -219,22 +219,14 @@ def main():
     print("MATRIXIFY SEGMENTER")
     print("="*60)
     
-    # Master file (fixed location)
+    # Fixed file paths
+    reference_file = "data/all-socks-preupload-extracted-products.xlsx"
     master_file = "raw/products-raw.xlsx"
     
-    # Get reference file from user
     print("\nThis script will extract products from the master file")
-    print("based on handles found in your reference file.")
-    print("\nEnter the path to your reference file:")
-    print("(e.g., data/womens-socks.xlsx or output/my-file.xlsx)")
-    reference_file = input("\nReference file path: ").strip()
-    
-    if not reference_file:
-        print("\n✗ Error: No file path provided")
-        sys.exit(1)
-    
-    # Remove quotes if user copied path with quotes
-    reference_file = reference_file.strip('"').strip("'")
+    print("based on handles found in the reference file.")
+    print(f"\nReference file: {reference_file}")
+    print(f"Master file:    {master_file}")
     
     # Check if reference file exists
     if not os.path.exists(reference_file):
