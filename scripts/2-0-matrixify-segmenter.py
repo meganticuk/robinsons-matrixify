@@ -1,6 +1,6 @@
 """
 Matrixify Segmenter Script
-Matches handles from a reference file against the master robinsons-socks.xlsx file
+Matches handles from a reference file against the master products-raw.xlsx file
 and extracts all matching rows while preserving data integrity
 """
 
@@ -123,7 +123,7 @@ def extract_matching_rows(master_file, handles, handle_mapping):
     Uses Unicode normalization for matching while preserving reference handles
     
     Args:
-        master_file: Path to the master robinsons-socks.xlsx file
+        master_file: Path to the master products-raw.xlsx file
         handles: Set of NORMALIZED handles to match against
         handle_mapping: Dict mapping normalized → original reference handle
         
@@ -220,7 +220,7 @@ def main():
     print("="*60)
     
     # Master file (fixed location)
-    master_file = "data/robinsons-socks.xlsx"
+    master_file = "raw/products-raw.xlsx"
     
     # Get reference file from user
     print("\nThis script will extract products from the master file")
@@ -244,7 +244,7 @@ def main():
     # Check if master file exists
     if not os.path.exists(master_file):
         print(f"\n✗ Error: Master file not found: {master_file}")
-        print("Please ensure robinsons-socks.xlsx exists in the data/ directory")
+        print("Please ensure products-raw.xlsx exists in the raw/ directory")
         sys.exit(1)
     
     try:

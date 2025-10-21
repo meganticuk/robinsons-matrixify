@@ -89,7 +89,7 @@ def main():
     print("="*60)
     
     # Input file (fixed)
-    input_file = "data/robinsons-collections-raw.xlsx"
+    input_file = "raw/collections-raw.xlsx"
     
     # Get search terms from user
     print("\nEnter the term(s) to search for in Column D.")
@@ -112,7 +112,7 @@ def main():
     term_for_filename = search_terms[0] if len(search_terms) == 1 else '-'.join(search_terms)
     # Clean filename (remove special characters)
     term_for_filename = ''.join(c for c in term_for_filename if c.isalnum() or c in ['-', '_'])
-    output_file = f"{term_for_filename}-handles.xlsx"
+    output_file = f"data/{term_for_filename}-handles.xlsx"
     
     # Extract handles
     try:
